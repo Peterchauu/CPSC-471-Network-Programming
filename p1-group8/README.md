@@ -3,7 +3,7 @@ Project: Simple FTP Server and Client
 
 Collaborators: 
 
-Bryan Tran | Email: btran299@csu.fullerton.edu\
+Bryan Tran | Email: btran299@csu.fullerton.edu
 Peter Chau | Email: Peterchauu93@csu.fullerton.edu
 
 Language: Python 3
