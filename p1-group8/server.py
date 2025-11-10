@@ -1,7 +1,7 @@
 import socket
 import os
 
-# Setup server
+# Server setup
 HOST = 'localhost'
 PORT = 5000
 
@@ -14,20 +14,18 @@ conn, addr = server.accept()
 print(f"Connected by {addr}")
 
 while True:
-    # Receive command from client
+    # Receive command
     data = conn.recv(1024).decode()
     if not data:
         break
 
     print(f"Client command: {data}")
-
-    # Split the command
     parts = data.split()
     command = parts[0]
 
     # ----- LS COMMAND -----
     if command == 'ls':
-        files = os.listdir('.')  # list all files in current directory
+        files = os.listdir('.')
         file_list = '\n'.join(files)
         conn.send(file_list.encode())
 
@@ -41,6 +39,7 @@ while True:
             conn.send(b'OK')
             with open(filename, 'rb') as f:
                 conn.sendall(f.read())
+            print(f"Sent file '{filename}' to client.")
         else:
             conn.send(b'ERROR: File not found')
 
@@ -52,13 +51,14 @@ while True:
         filename = parts[1]
         conn.send(b'OK')
         with open(filename, 'wb') as f:
-            data = conn.recv(1024)
-            while data:
-                f.write(data)
-                if len(data) < 1024:
+            while True:
+                data = conn.recv(4096)
+                if not data:
                     break
-                data = conn.recv(1024)
-        print(f"File {filename} received successfully")
+                f.write(data)
+                if len(data) < 4096:
+                    break
+        print(f"Received file '{filename}' from client.")
 
     # ----- QUIT COMMAND -----
     elif command == 'quit':

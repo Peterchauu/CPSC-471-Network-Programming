@@ -29,11 +29,14 @@ while True:
         if len(parts) < 2:
             print("Usage: get <filename>")
             continue
+
         filename = parts[1]
         status = client.recv(1024).decode()
+
         if status == 'OK':
+            # Receive file data
+            data = client.recv(4096)
             with open(filename, 'wb') as f:
-                data = client.recv(4096)
                 f.write(data)
             print(f"Downloaded '{filename}' successfully.")
         else:
@@ -44,11 +47,14 @@ while True:
         if len(parts) < 2:
             print("Usage: put <filename>")
             continue
+
         filename = parts[1]
         if not os.path.exists(filename):
             print("File does not exist on client side.")
             continue
+
         status = client.recv(1024).decode()
+
         if status == 'OK':
             with open(filename, 'rb') as f:
                 client.sendall(f.read())
