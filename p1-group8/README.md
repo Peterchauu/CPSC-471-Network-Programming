@@ -40,7 +40,8 @@ Notes:
 - Make sure both `server.py` and `client.py` are in the same folder.
 - You can add test files (like `test1.txt` and `test2.txt`) in the same directory to test file transfer.
 - The server must be started before the client.
-- The client connects to `localhost (127.0.0.1)` using port **5000**
+- The client connects to `localhost (127.0.0.1)` using port **5000**.
+- This project was developed and tested using **WSL (Windows Subsystem for Linux) Ubuntu 22.04** on Windows 10/11. The terminal commands (`ls`, `cd`, `python3`) were executed in Ubuntu.
 
 ------------------------------------
 
