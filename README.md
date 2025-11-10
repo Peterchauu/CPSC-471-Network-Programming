@@ -2,7 +2,7 @@ Project: Simple FTP Server and Client
 ------------------------------------
 
 Names: Bryan Tran, 
-Email: btran299@csu.fullerton.edu
+Email: btran299@csu.fullerton.edu, 
 Language: Python 3  
 
 Description:
