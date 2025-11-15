@@ -25,7 +25,7 @@ while True:
 
     # ----- LS COMMAND -----
     if command == 'ls':
-        files = os.listdir('.')
+        files = os.listdir('serverDatabase')
         file_list = '\n'.join(files)
         conn.send(file_list.encode())
 
@@ -35,9 +35,11 @@ while True:
             conn.send(b'ERROR: No filename provided')
             continue
         filename = parts[1]
-        if os.path.exists(filename):
+        filepath = os.path.join('serverDatabase', filename)
+        
+        if os.path.exists(filepath):
             conn.send(b'OK')
-            with open(filename, 'rb') as f:
+            with open(filepath, 'rb') as f:
                 conn.sendall(f.read())
             print(f"Sent file '{filename}' to client.")
         else:
@@ -49,8 +51,10 @@ while True:
             conn.send(b'ERROR: No filename provided')
             continue
         filename = parts[1]
+        filepath = os.path.join('serverDatabase', filename)
+        
         conn.send(b'OK')
-        with open(filename, 'wb') as f:
+        with open(filepath, 'wb') as f:
             while True:
                 data = conn.recv(4096)
                 if not data:
@@ -58,10 +62,10 @@ while True:
                 f.write(data)
                 if len(data) < 4096:
                     break
-        print(f"Received file '{filename}' from client.")
+        print(f"Received file '{filename}' from client and saved to server's database")
 
-    # ----- QUIT COMMAND -----
-    elif command == 'quit':
+    # ----- EXIT COMMAND -----
+    elif command == 'exit':
         conn.send(b'Goodbye!')
         break
 
