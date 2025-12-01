@@ -2,29 +2,36 @@ import socket
 import os
 import threading
 
-HOST = '0.0.0.0'  # Accept connections from any IP
+HOST = '0.0.0.0'
 PORT = 5000
 
-# Function to handle each client separately
+# Function to handle each client separately and to be called by threads
 def handle_client(conn, addr):
     print(f"New connection from {addr}")
+    
     while True:
         try:
             data = conn.recv(1024).decode()
             if not data:
                 break
+            
+            print(f"Client command: {data}")
             parts = data.split()
             command = parts[0]
 
             if command == 'ls':
                 files = os.listdir('.')
-                conn.send('\n'.join(files).encode())
+                file_list = '\n'.join(files)
+                conn.send(file_list.encode())
+
 
             elif command == 'get':
                 if len(parts) < 2:
                     conn.send(b'ERROR: No filename provided')
                     continue
+                
                 filename = parts[1]
+                
                 if os.path.exists(filename):
                     conn.send(b'OK')
                     with open(filename, 'rb') as f:
@@ -33,11 +40,14 @@ def handle_client(conn, addr):
                 else:
                     conn.send(b'ERROR: File not found')
 
+
             elif command == 'put':
                 if len(parts) < 2:
                     conn.send(b'ERROR: No filename provided')
                     continue
+                
                 filename = parts[1]
+                
                 conn.send(b'OK')
                 with open(filename, 'wb') as f:
                     while True:
@@ -49,7 +59,8 @@ def handle_client(conn, addr):
                             break
                 print(f"Received file '{filename}' from {addr}")
 
-            elif command == 'quit':
+
+            elif command == 'exit':
                 conn.send(b'Goodbye!')
                 break
 

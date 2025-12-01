@@ -25,7 +25,7 @@ while True:
 
     # ----- LS COMMAND -----
     if command == 'ls':
-        files = os.listdir('serverDatabase')
+        files = os.listdir()
         file_list = '\n'.join(files)
         conn.send(file_list.encode())
 
@@ -34,12 +34,12 @@ while True:
         if len(parts) < 2:
             conn.send(b'ERROR: No filename provided')
             continue
-        filename = parts[1]
-        filepath = os.path.join('serverDatabase', filename)
         
-        if os.path.exists(filepath):
+        filename = parts[1]
+        
+        if os.path.exists(filename):
             conn.send(b'OK')
-            with open(filepath, 'rb') as f:
+            with open(filename, 'rb') as f:
                 conn.sendall(f.read())
             print(f"Sent file '{filename}' to client.")
         else:
@@ -50,11 +50,11 @@ while True:
         if len(parts) < 2:
             conn.send(b'ERROR: No filename provided')
             continue
+        
         filename = parts[1]
-        filepath = os.path.join('serverDatabase', filename)
         
         conn.send(b'OK')
-        with open(filepath, 'wb') as f:
+        with open(filename, 'wb') as f:
             while True:
                 data = conn.recv(4096)
                 if not data:

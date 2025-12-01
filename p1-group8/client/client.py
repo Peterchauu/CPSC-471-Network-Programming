@@ -31,14 +31,14 @@ while True:
             continue
 
         filename = parts[1]
+
         status = client.recv(1024).decode()
 
         if status == 'OK':
             
             # Receive file data
             data = client.recv(4096)
-            filepath = os.path.join('clientFiles', filename)
-            with open(filepath, 'wb') as f:
+            with open(filename, 'wb') as f:
                 f.write(data)
             print(f"Downloaded '{filename}' successfully to client's import folder")
         else:
@@ -51,16 +51,15 @@ while True:
             continue
 
         filename = parts[1]
-        filepath = os.path.join('clientFiles', filename)
         
-        if not os.path.exists(filepath):
+        if not os.path.exists(filename):
             print("File does not exist on client side.")
             continue
 
         status = client.recv(1024).decode()
 
         if status == 'OK':
-            with open(filepath, 'rb') as f:
+            with open(filename, 'rb') as f:
                 client.sendall(f.read())
             print(f"Uploaded '{filename}' successfully.")
         else:
