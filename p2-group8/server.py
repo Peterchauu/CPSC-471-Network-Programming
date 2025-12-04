@@ -49,7 +49,7 @@ def handle_client(conn, addr):
                             break
                 print(f"Received file '{filename}' from {addr}")
 
-            elif command == 'quit':
+            elif command == 'exit':
                 conn.send(b'Goodbye!')
                 break
 
