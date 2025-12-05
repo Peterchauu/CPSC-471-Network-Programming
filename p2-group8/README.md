@@ -1,4 +1,5 @@
-Project: Multi-Client FTP Server and Client
+Project: Client-to-Server File Transfer using Sockets
+
 -------------------------------------------
 
 Collaborators:
@@ -17,7 +18,7 @@ It allows multiple clients to connect to the server concurrently and perform bas
 - ls   : list files on the server
 - get  : download a file from the server
 - put  : upload a file to the server
-- quit : disconnect from the server
+- exit : disconnect from the server
 
 The server uses threads to handle multiple clients simultaneously. Clients can connect from local machines or, later, from other hosts including an AWS EC2 instance.
 
@@ -42,7 +43,7 @@ How to Run (Local Testing):
    ftp> ls
    ftp> get test1.txt
    ftp> put test2.txt
-   ftp> quit
+   ftp> exit
 
 -------------------------------------------
 
@@ -59,14 +60,3 @@ Notes:
 Special Instructions:
 - For AWS EC2 deployment, ensure port 5000 is open in the security group.
 - Use the EC2 public IP for client connections from outside your machine.
-
--------------------------------------------
-
-Tar Instructions (for submission):
-1. Place all your files (`server.py`, `client.py`, `README.txt`, and any test files) in one folder named:
-   p2-group8
-
-2. Open a terminal in the parent directory of `p2-group8` and run:
-   tar cvf p2-group8.tar p2-group8
-
-3. Upload the generated `.tar` file to Canvas.
